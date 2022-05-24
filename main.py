@@ -25,19 +25,19 @@ if os.path.exists("config.json"):
     user_proxies = config["proxies"]
 
 print(colored("What site do you want to download from?", "green"))
-site = input(">> ")
+site = input(">> ").lower()
 if site == "":
     site = "rule34"
 print("")
 
 print(colored("Please enter the tags you want to use", "green"))
-user_tags = input(">> ")
+user_tags = input(">> ").lower()
 if user_tags == "":
     user_tags = ""
 print("")
 
 print(colored("How many pages would you like to get?", "green"), " (leave empty for max)")
-max_sites = input(">> ")
+max_sites = input(">> ").lower()
 print("")
 
 if user_proxies == True:
@@ -45,9 +45,9 @@ if user_proxies == True:
     ProxyScraper.Scraper(proxy_list=proxy_list)
     print("")
 
-if site == "E621" or site == "e621":
+if site == "e621":
     E621.Fetcher(user_tags=user_tags, user_blacklist=user_blacklist)
-elif site == "RULE34" or site == "rule34":
+elif site == "rule34":
     RULE34.Fetcher(user_tags=user_tags, user_blacklist=user_blacklist, proxy_list=proxy_list, max_sites=max_sites, user_proxies=user_proxies)
 else:
     print(colored("Site not supported", "red"))

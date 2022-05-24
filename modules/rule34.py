@@ -27,7 +27,6 @@ class RULE34():
                 break
             else: 
                 for item in req:
-                    sleep(3)
                     #print(item)
                     post_tags = str.split(item["tags"])
                     image_address = item["file_url"]
