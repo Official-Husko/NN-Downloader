@@ -33,7 +33,7 @@ print("")
 print(colored("Please enter the tags you want to use", "green"))
 user_tags = input(">> ")
 if user_tags == "":
-    user_tags = "rape female"
+    user_tags = ""
 print("")
 
 print(colored("How many pages would you like to get?", "green"), " (leave empty for max)")
