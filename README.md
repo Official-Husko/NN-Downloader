@@ -4,16 +4,19 @@ Welcome to the successor of the [multporn image downloader][1] [v1][2] & [v2][1]
 
 This is not the complete version and it only works on [Rule34][3] currently. The other parts are WIP and will be complete in the near future (few days to a couple of weeks probably). More Documentation and other gibberish coming soo.
 
-#### Planned:
-- ~~[Rule34][3]~~ Complete
+<br />
+
+#### Currently Supported:
+- [Rule34][3]
 - [E621][4]
 - [E926][5]
 - [Furbooru][6]
+
+#### Planned:
 - [Multporn][7]
 - [Yiffer][8]
 - [YiffGallery][9]
-- ~~[FurryBooru][10]~~ Currently not possible due to cloudflare issues
-
+- ~~[FurryBooru][10]~~ Currently not possible due to cloudflare issues.
 
 [1]:https://github.com/Official-Husko/multporn-image-downloader-v2
 [2]:https://github.com/Official-Husko/multporn-image-downloader
@@ -27,5 +30,12 @@ This is not the complete version and it only works on [Rule34][3] currently. The
 [10]:https://furry.booru.org/
 [11]:https://github.com/Official-Husko/NN-Downloader/issues
 
-
 Further sites can be added. Just open a [support ticket][11] with the url to the site.
+
+<br />
+<br />
+<br />
+
+#### Disclaimer  
+***I'am not in any way affiliated or working with these Sites. This is a unofficial project.***  
+*I would suggest you to use a customized Windows Terminal.

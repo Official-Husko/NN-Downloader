@@ -2,3 +2,9 @@
 config.json
 
 modules/__pycache__/
+
+*.spec
+
+dist/
+
+build/

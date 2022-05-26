@@ -10,10 +10,9 @@ now = datetime.now()
 dt_now = now.strftime("%d-%m-%Y_%H-%M-%S")
 
 class RULE34():
-    def Fetcher(user_tags, user_blacklist, proxy_list, max_sites, user_proxies):
+    def Fetcher(user_tags, user_blacklist, proxy_list, max_sites, user_proxies, header):
         approved_list = []
         page = 1
-        header = {"User-Agent":"nn-downloader/1.0 (by Official Husko on GitHub)"}
         while True:
             URL = f"https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&pid={page}&limit=1000&json=1&tags={user_tags}"
             if user_proxies == True:
@@ -52,11 +51,12 @@ class RULE34():
                         pass
                         #print(colored(f"{image_id} did not pass the test!", "red"))
                         #print("")
-                with alive_bar(len(approved_list), calibrate=1) as bar:
+                with alive_bar(len(approved_list), calibrate=1, dual_line=True, title='Downloading') as bar:
                     for data in approved_list:
                         image_address = data["image_address"]
                         image_name = data["image_name"]
                         image_id = data["image_id"]
+                        bar.text = f'-> Downloading: {image_id}, please wait...'
                         if user_proxies == True:
                             proxy = random.choice(proxy_list)
                             img_data = requests.get(image_address, proxies=proxy).content
