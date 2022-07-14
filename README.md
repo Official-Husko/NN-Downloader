@@ -4,6 +4,8 @@ Welcome to the successor of the [multporn image downloader][1] [v1][2] & [v2][1]
 
 This is not the complete version and it only works on a [few][13] sites currently. The other parts are WIP and will be complete in the near future (few days to a couple of weeks probably). More Documentation and other gibberish coming soo.
 
+[Download][14]
+
 <br />
 
 #### Currently Supported:
@@ -32,6 +34,7 @@ This is not the complete version and it only works on a [few][13] sites currentl
 [11]:https://github.com/Official-Husko/NN-Downloader/issues
 [12]:https://booru.plus/
 [13]:https://github.com/Official-Husko/NN-Downloader#currently-supported=
+[14]:https://github.com/Official-Husko/NN-Downloader/releases/latest
 
 Further sites can be added. Just open a [support ticket][11] with the url to the site.
 
