@@ -63,9 +63,10 @@ class RULE34():
                         else:
                             sleep(1)
                             img_data = requests.get(image_address).content
-                        if not os.path.exists("media/" + dt_now + " " + user_tags):
-                            os.mkdir("media/" + dt_now + " " + user_tags)
-                        with open("media/" + dt_now + " " + user_tags + "/" + str(image_id) + " - " + image_name, 'wb') as handler:
+                        safe_user_tags = user_tags.replace("\\", "").replace("/", "").replace(":", "").replace("*", "").replace("?", "").replace('"', "").replace("<", "").replace(">", "").replace("|", "").replace(" ", "_")
+                        if not os.path.exists("media/" + dt_now + " " + safe_user_tags):
+                            os.mkdir("media/" + dt_now + " " + safe_user_tags)
+                        with open("media/" + dt_now + " " + safe_user_tags + "/" + str(image_id) + " - " + image_name, 'wb') as handler:
                             handler.write(img_data)
                         bar()
                 print(colored(f"Page {page} Completed", "green"))

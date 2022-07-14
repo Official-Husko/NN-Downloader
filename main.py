@@ -6,11 +6,13 @@ from ctypes import windll
 from time import sleep
 from sys import exit
 
+from modules.multporn import Multporn
 
-version = "1.0.0"
-windll.kernel32.SetConsoleTitleW("NN-Downloader | v" + version)
+
+version = "1.1.0"
+windll.kernel32.SetConsoleTitleW(f"NN-Downloader | v{version}")
 proxy_list = []
-header = {"User-Agent":"nn-downloader/1.0 (by Official Husko on GitHub)"}
+header = {"User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)"}
 
 class Main():
     def main_startup():
@@ -77,6 +79,12 @@ class Main():
             sleep(5)
             exit(0)
 
+        if user_proxies == True:
+            print(colored("Fetching Fresh Proxies...", "yellow"), end='\r')
+            ProxyScraper.Scraper(proxy_list=proxy_list)
+            print(colored(f"Fetched {len(proxy_list)} Proxies.        ", "green"))
+            print("")
+
         print(colored("What site do you want to download from?", "green"))
         site = input(">> ").lower()
         if site == "":
@@ -85,22 +93,19 @@ class Main():
             Main.main_startup()
         print("")
 
-        print(colored("Please enter the tags you want to use", "green"))
-        user_tags = input(">> ").lower()
-        if user_tags == "":
-            print(colored("Please enter the tags you want.", "red"))
-            sleep(3)
-            Main.main_startup()
-        print("")
+        if site == "multporn":
+            pass
+        else: 
+            print(colored("Please enter the tags you want to use", "green"))
+            user_tags = input(">> ").lower()
+            if user_tags == "":
+                print(colored("Please enter the tags you want.", "red"))
+                sleep(3)
+                Main.main_startup()
+            print("")
 
-        print(colored("How many pages would you like to get?", "green"), " (leave empty for max)")
-        max_sites = input(">> ").lower()
-        print("")
-
-        if user_proxies == True:
-            print(colored("Fetching Fresh Proxies...", "yellow"), end='\r')
-            ProxyScraper.Scraper(proxy_list=proxy_list)
-            print(colored(f"Fetched {len(proxy_list)} Proxies.", "green"))
+            print(colored("How many pages would you like to get?", "green"), " (leave empty for max)")
+            max_sites = input(">> ").lower()
             print("")
 
         if site == "e621":
@@ -128,8 +133,17 @@ class Main():
                 sleep(3)
             else:
                 FURBOORU.Fetcher(user_tags=user_tags, user_blacklist=user_blacklist, proxy_list=proxy_list, max_sites=max_sites, user_proxies=user_proxies, apiKey=apiKey, header=header)
+        elif site == "multporn":
+            print(colored("Please enter the link. (e.g. https://multporn.net/comics/double_trouble_18)", "green"))
+            URL = input(">> ")
+            Multporn.Fetcher(proxy_list=proxy_list, user_proxies=user_proxies, header=header, URL=URL)
+
+
         else:
             print(colored("Site not supported. Open a ticket to request support for that site!", "red"))
+
+        # Jump back to start
+        Main.main_startup()
 
 if __name__ == '__main__':
     Main.main_startup()
