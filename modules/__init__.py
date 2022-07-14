@@ -3,3 +3,4 @@ from .rule34 import RULE34
 from .proxyscraper import ProxyScraper
 from .furbooru import FURBOORU
 from .e926 import E926
+from .multporn import Multporn
