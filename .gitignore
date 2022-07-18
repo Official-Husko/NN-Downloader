@@ -8,3 +8,5 @@ modules/__pycache__/
 dist/
 
 build/
+
+media/

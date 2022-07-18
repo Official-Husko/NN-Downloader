@@ -1,12 +1,10 @@
-from modules import E621, RULE34, ProxyScraper, FURBOORU, E926
+from modules import E621, RULE34, ProxyScraper, FURBOORU, E926, Multporn, Yiffer
 import json
 import os
 from termcolor import colored
 from ctypes import windll
 from time import sleep
 from sys import exit
-
-from modules.multporn import Multporn
 
 
 version = "1.1.0"
@@ -93,7 +91,7 @@ class Main():
             Main.main_startup()
         print("")
 
-        if site == "multporn":
+        if site in ["multporn", "yiffer"]:
             pass
         else: 
             print(colored("Please enter the tags you want to use", "green"))
@@ -137,6 +135,10 @@ class Main():
             print(colored("Please enter the link. (e.g. https://multporn.net/comics/double_trouble_18)", "green"))
             URL = input(">> ")
             Multporn.Fetcher(proxy_list=proxy_list, user_proxies=user_proxies, header=header, URL=URL)
+        elif site == "yiffer":
+            print(colored("Please enter the link. (e.g. https://yiffer.xyz/Howl & Jasper)", "green"))
+            URL = input(">> ")
+            Yiffer.Fetcher(proxy_list=proxy_list, user_proxies=user_proxies, header=header, URL=URL)
 
 
         else:

@@ -4,3 +4,4 @@ from .proxyscraper import ProxyScraper
 from .furbooru import FURBOORU
 from .e926 import E926
 from .multporn import Multporn
+from .yiffer import Yiffer

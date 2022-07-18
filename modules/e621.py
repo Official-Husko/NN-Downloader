@@ -32,7 +32,7 @@ class E621():
             
             if req["posts"] == []:
                 print(colored("No images found! Try different tags.", "yellow"))
-                sleep(999)
+                sleep(5)
                 break
 
             elif page == max_sites:
