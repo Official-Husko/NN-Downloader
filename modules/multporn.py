@@ -15,39 +15,25 @@ class Multporn():
 
         # sort link for category
         parts = URL.split("/")
+        type = parts[3]
         title = parts[4]
 
-        if parts[3] == "comics":
+        if type in ["comics", "hentai_manga", "gay_porn_comics", "gif", "humor"]:
             type = "field_com_pages"
 
-        if parts[3] == "hentai_manga":
-            type = "field_com_pages"
-
-        elif parts[3] == "pictures":
+        elif type in ["pictures", "hentai"]:
             type = "field_img"
 
-        elif parts[3] == "rule_63":
+        elif type == "rule_63":
             type = "field_rule_63_img"
 
-        elif parts[3] == "gay_porn_comics":
-            type = "field_com_pages"
-
-        elif parts[3] == "hentai":
-            type = "field_img"
-
-        elif parts[3] == "games":
+        elif type == "games":
             type = "field_screenshots"
 
-        elif parts[3] == "video":
+        elif type == "video":
             print("[ " + colored("i","blue") + " ] " + "Sorry but videos are currently not supported.")
             sleep(5)
             return
-
-        elif parts[3].lower() == "gif":
-            type = "field_com_pages"
-
-        elif parts[3] == "humor":
-            type = "field_com_pages"
 
         else:
             print("[ " + colored("i","blue") + " ] " + "Sorry but this type is not recognized. Please open a ticket with the link.")
