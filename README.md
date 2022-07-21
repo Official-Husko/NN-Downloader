@@ -15,12 +15,16 @@ This is not the complete version and it only works on a [few][13] sites currentl
 - [Furbooru][6] (API)
 - [Multporn][7] 
 - [Yiffer][8]
+- [Luscious][16]
 
 #### Planned:
 - [YiffGallery][9]
 - ~~[FurryBooru][10]~~ Currently not possible due to cloudflare issues.
 - [BooruPlus][11]
 - [nHentai][15]
+- [Pixiv][17]
+- [HentaiRead][18]
+
 
 [1]:https://github.com/Official-Husko/multporn-image-downloader-v2
 [2]:https://github.com/Official-Husko/multporn-image-downloader
@@ -37,6 +41,10 @@ This is not the complete version and it only works on a [few][13] sites currentl
 [13]:https://github.com/Official-Husko/NN-Downloader#currently-supported=
 [14]:https://github.com/Official-Husko/NN-Downloader/releases/latest
 [15]:https://nhentai.net/
+[16]:https://luscious.net/
+[17]:https://www.pixiv.net/
+[18]:https://hentairead.com/
+
 
 Further sites can be added. Just open a [support ticket][11] with the url to the site.
 

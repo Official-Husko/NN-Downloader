@@ -1,4 +1,4 @@
-from modules import E621, RULE34, ProxyScraper, FURBOORU, E926, Multporn, Yiffer
+from modules import E621, RULE34, ProxyScraper, FURBOORU, E926, Multporn, Yiffer, Luscious
 import json
 import os
 from termcolor import colored
@@ -7,7 +7,7 @@ from time import sleep
 from sys import exit
 
 
-version = "1.2.0"
+version = "1.3.0"
 windll.kernel32.SetConsoleTitleW(f"NN-Downloader | v{version}")
 proxy_list = []
 header = {"User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)"}
@@ -28,15 +28,20 @@ class Main():
         if not os.path.exists("media"):
             os.mkdir("media")
 
-        # Check if config exists else create it
+        # Check if config exists and read it
         if os.path.exists("config.json"):
             with open("config.json") as cf:
                 config = json.load(cf)
-            user_blacklist = config["blacklisted_tags"]
             user_proxies = config["proxies"]
+            user_OTD = config["oneTimeDownload"]
+            user_blacklist = config["blacklisted_tags"]
+            user_blocked_formats = config["blacklisted_formats"]
+        
+        # Create a new config with default values
         else:
             default_config = {
                 "proxies": "true",
+                "oneTimeDownload": "true",
                 "user_credentials": {
                     "e621": {
                         "apiUser": "",
@@ -68,13 +73,17 @@ class Main():
                 "blacklisted_tags": [
                     "example1",
                     "example2"
+                ],
+                "blacklisted_formats": [
+                    "example1",
+                    "example2"
                 ]
             }
             with open("config.json", "w") as cc:
                 json.dump(default_config, cc, indent=6)
             cc.close()
-            print(colored("New Config file generated. Please enter the Api Keys and the blacklisted tags in there after that restart the tool.", "green"))
-            sleep(5)
+            print(colored("New Config file generated. Please configure it for your use case and add API keys for needed services.", "green"))
+            sleep(7)
             exit(0)
 
         if user_proxies == True:
@@ -91,7 +100,7 @@ class Main():
             Main.main_startup()
         print("")
 
-        if site in ["multporn", "yiffer"]:
+        if site in ["multporn", "yiffer", "luscious"]:
             pass
         else: 
             print(colored("Please enter the tags you want to use", "green"))
@@ -139,8 +148,12 @@ class Main():
             print(colored("Please enter the link. (e.g. https://yiffer.xyz/Howl & Jasper)", "green"))
             URL = input(">> ")
             Yiffer.Fetcher(proxy_list=proxy_list, user_proxies=user_proxies, header=header, URL=URL)
-
-
+        elif site == "luscious":
+            print(colored("Please enter the link. (e.g. https://www.luscious.net/albums/bifurcation-ongoing_437722)", "green"))
+            URL = input(">> ")
+            Luscious.Fetcher(proxy_list=proxy_list, user_proxies=user_proxies, header=header, URL=URL)
+        
+        
         else:
             print(colored("Site not supported. Open a ticket to request support for that site!", "red"))
 

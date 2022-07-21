@@ -5,3 +5,4 @@ from .furbooru import FURBOORU
 from .e926 import E926
 from .multporn import Multporn
 from .yiffer import Yiffer
+from .luscious import Luscious

@@ -11,9 +11,7 @@ class Yiffer():
         # link operations
         URL = requests.utils.unquote(URL, encoding='utf-8', errors='replace')
         parts = URL.split("/")
-        print(parts)
         title = parts[3]
-        print(title)
 
         # Get item info
         URL = f"https://yiffer.xyz/api/comics/{title}"

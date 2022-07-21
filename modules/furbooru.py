@@ -29,43 +29,26 @@ class FURBOORU():
             else: 
                 for item in req["images"]:
                     image_hidden = item["hidden_from_users"]
-                    #print(image_hidden)
                     if image_hidden != False:
-                        #print("hidden")
                         pass
                     else:
-                        #print(item)
-                        #sleep(3)
                         post_tags = item["tags"]
                         image_address = item["representations"]["full"]
                         image_format = item["format"]
                         image_id = item["id"]
-                        #print(post_tags)
-                        #print(image_address)
-                        #print(image_format)
-                        #print(image_id)
-                        #print("")
-                        #sleep(3)
                         user_blacklist_lenght = len(user_blacklist)
-                        #print("Bad: ", user_blacklist_lenght)
                         passed = 0
 
                         for blacklisted_tag in user_blacklist:
                             if blacklisted_tag in post_tags:
-                                #print(blacklisted_tag)
                                 break
                             else:
                                 passed += 1
-                        #print("Good: ", passed)
                         if passed == user_blacklist_lenght:
                             image_data = {"image_address": image_address, "image_format": image_format, "image_id": image_id}
                             approved_list.append(image_data)
-                            #print(colored(f"{image_id} passed the test!", "green"))
-                            #print("")
                         else:
                             pass
-                            #print(colored(f"{image_id} did not pass the test!", "red"))
-                            #print("")
                 with alive_bar(len(approved_list), calibrate=1, dual_line=True, title='Downloading') as bar:
                     for data in approved_list:
                         image_address = data["image_address"]

@@ -26,31 +26,23 @@ class RULE34():
                 break
             else: 
                 for item in req:
-                    #print(item)
                     post_tags = str.split(item["tags"])
                     image_address = item["file_url"]
                     image_name = item["image"]
                     image_id = item["id"]
                     user_blacklist_lenght = len(user_blacklist)
-                    #print("Bad: ", user_blacklist_lenght)
                     passed = 0
 
                     for blacklisted_tag in user_blacklist:
                         if blacklisted_tag in post_tags:
-                            #print(blacklisted_tag)
                             break
                         else:
                             passed += 1
-                    #print("Good: ", passed)
                     if passed == user_blacklist_lenght:
                         image_data = {"image_address": image_address, "image_name": image_name, "image_id": image_id}
                         approved_list.append(image_data)
-                        #print(colored(f"{image_id} passed the test!", "green"))
-                        #print("")
                     else:
                         pass
-                        #print(colored(f"{image_id} did not pass the test!", "red"))
-                        #print("")
                 with alive_bar(len(approved_list), calibrate=1, dual_line=True, title='Downloading') as bar:
                     for data in approved_list:
                         image_address = data["image_address"]

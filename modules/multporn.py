@@ -1,7 +1,6 @@
 import requests
 import random
 import re
-import json
 import xmltodict
 from termcolor import colored
 from time import sleep
@@ -85,7 +84,7 @@ class Multporn():
         if req.status_code == 404:
             print(colored("An error occurred! please report this to the dev"))
             sleep(3)
-            pass
+            return
 
         # convert the xml to json for the sake of my mental health
         juicebox_data = xmltodict.parse(req.content)
