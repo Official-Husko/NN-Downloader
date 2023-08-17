@@ -51,7 +51,7 @@ class Multporn():
         try:
             raw_link = req["link"]
         except:
-            print("[ " + colored("-","red") + " ] " + f"Please provide a correct link! If this is a mistake please open a ticked with the url.")
+            print("[ " + colored("-","red") + " ] " + f"Please provide a correct link! If this is a mistake please open a ticket with the url.")
             sleep(5)
             return
             

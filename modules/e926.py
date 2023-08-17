@@ -11,7 +11,7 @@ now = datetime.now()
 dt_now = now.strftime("%d-%m-%Y_%H-%M-%S")
 
 class E926():
-    def Fetcher(user_tags, user_blacklist, proxy_list, max_sites, user_proxies, apiUser ,apiKey, header):
+    def Fetcher(user_tags, user_blacklist, proxy_list, max_sites, user_proxies, apiUser ,apiKey, header, db):
         approved_list = []
         page = 1
         while True:
@@ -31,7 +31,7 @@ class E926():
                 pass
             
             if req["posts"] == []:
-                print(colored("No images found! Try different tags.", "yellow"))
+                print(colored("No images found or all downloaded! Try different tags.", "yellow"))
                 sleep(5)
                 break
 
@@ -57,7 +57,7 @@ class E926():
                             break
                         else:
                             passed += 1
-                    if passed == user_blacklist_lenght:
+                    if passed == user_blacklist_lenght and str(image_id) not in db and image_address != None:
                         image_data = {"image_address": image_address, "image_format": image_format, "image_id": image_id}
                         approved_list.append(image_data)
                     else:
@@ -81,6 +81,8 @@ class E926():
                         os.mkdir("media/" + dt_now + " " + safe_user_tags)
                     with open("media/" + dt_now + " " + safe_user_tags + "/" + str(image_id) + "." + image_format, 'wb') as handler:
                         handler.write(img_data)
+                    with open("db/e621.db", "a") as db_writer:
+                        db_writer.write(f"{str(image_id)}\n")
                     bar()
 
             print(colored(f"Page {page} Completed", "green"))

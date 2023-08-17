@@ -1,10 +1,10 @@
 # NN-Downloader
 
-Welcome to the successor of the [multporn image downloader][1] [v1][2] & [v2][1] and most downloaders out there regarding "NSFW" material. The NN-Downloader or Naughty-Naughty-Downloader (yes very creative i know) supports multiple sites with their official api (if available), proxies and its also portable.
+Welcome to the successor of the [multporn image downloader v1][2] & [v2][1] and most downloaders out there regarding "NSFW" material. The NN-Downloader or Naughty-Naughty-Downloader (yes very creative I know) supports multiple sites with their official API (if available), and proxies and it's also portable.
 
-This is not the complete version and it only works on a [few][13] sites currently. The other parts are WIP and will be complete in the near future. More Documentation and other gibberish coming soo.
+This project is unfinished and only works on the [listed][13] sites currently. More Documentation and other gibberish are planned.
 
-[Download][14]
+[Windows Download][14] | [Linux Download][21]
 
 <br />
 
@@ -13,18 +13,17 @@ This is not the complete version and it only works on a [few][13] sites currentl
 - [E621][4] (API)
 - [E926][5] (API)
 - [Furbooru][6] (API)
-- [Multporn][7] 
+- [Multporn][7]
 - [Yiffer][8]
-- [Luscious][16]
+- [Luscious][16] ***(Currently Broken!)***
 
 #### Planned:
 - [YiffGallery][9]
-- ~~[FurryBooru][10]~~ Currently not possible due to cloudflare issues.
+- ~~[FurryBooru][10]~~ Is currently not possible due to Cloudflare blocking access when contacting their API.
 - [BooruPlus][11]
 - [nHentai][15]
 - [Pixiv][17]
 - [HentaiRead][18]
-
 
 [1]:https://github.com/Official-Husko/multporn-image-downloader-v2
 [2]:https://github.com/Official-Husko/multporn-image-downloader
@@ -44,14 +43,20 @@ This is not the complete version and it only works on a [few][13] sites currentl
 [16]:https://luscious.net/
 [17]:https://www.pixiv.net/
 [18]:https://hentairead.com/
+[19]:https://rule34.art/
+[20]:https://2.multporn.net/
+[21]:https://github.com/HttpAnimation/NN-Downloader-Linux
 
-
-Further sites can be added. Just open a [support ticket][11] with the url to the site.
+Further sites can be added. Just open a [support ticket][11] with the URL to the site.
 
 <br />
 <br />
 <br />
 
 #### Disclaimer  
-***I'am not in any way affiliated or working with these Sites. This is a unofficial project.***  
-*I would suggest you to use a customized Windows Terminal.
+***I am not in any way affiliated or working with these Sites. This is an unofficial project.***  
+*I would suggest you use a customized Terminal.
+
+
+[//]: # (Ingore These Lines Below)
+[//]: # (Including mirror [rule34.art][19] & [2.multporn.net][20])
