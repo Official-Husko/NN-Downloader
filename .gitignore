@@ -13,6 +13,5 @@ testing_accounts.txt.bak
 db/
 outdated
 modules/updateManager.old
-modules/auto_update.py
 runtime.log
 delete-exe.bat

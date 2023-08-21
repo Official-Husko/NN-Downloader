@@ -7,7 +7,7 @@ from time import sleep
 from sys import exit
 import inquirer
 
-version = "1.4.0"
+version = "1.4.1"
 windll.kernel32.SetConsoleTitleW(f"NN-Downloader | v{version}")
 proxy_list = []
 header = {"User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)"}
@@ -76,7 +76,7 @@ class Main():
         print(colored("What site do you want to download from?", "green"))
         questions = [
             inquirer.List('selection',
-                          choices=['E621', 'E926', 'Furbooru', 'Luscious', 'Multporn', 'Rule34', 'Yiffer']),
+                          choices=['E621', 'E926', 'Furbooru', 'Multporn', 'Rule34', 'Yiffer']), #choices=['E621', 'E926', 'Furbooru', 'Luscious', 'Multporn', 'Rule34', 'Yiffer']),
         ]
         answers = inquirer.prompt(questions)
         print("")
