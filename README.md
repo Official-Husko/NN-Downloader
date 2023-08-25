@@ -4,6 +4,9 @@ Welcome to the successor of the [multporn image downloader v1][2] & [v2][1] and 
 
 This project is unfinished and only works on the [listed][13] sites currently. More Documentation and other gibberish are planned.
 
+### Preview
+![preview](https://github.com/Official-Husko/NN-Downloader/blob/dev/preview/preview.gif)
+
 [Windows Download][14] | [Linux Download][21]
 
 <br />
