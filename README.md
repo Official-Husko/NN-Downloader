@@ -15,7 +15,7 @@ This project is unfinished and only works on the [listed][13] sites currently. M
 - [Furbooru][6] (API)
 - [Multporn][7]
 - [Yiffer][8]
-- [Luscious][16] ***(Currently Broken!)***
+- [Luscious][16]
 
 #### Planned:
 - [YiffGallery][9]

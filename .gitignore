@@ -4,14 +4,10 @@ __pycache__/
 dist/
 build/
 media/
-.nn-d/
 .env/
 testing_accounts.txt
-config.json.bak
 old_config.json
-testing_accounts.txt.bak
 db/
 outdated
-modules/updateManager.old
 runtime.log
-delete-exe.bat
+config.json.dev

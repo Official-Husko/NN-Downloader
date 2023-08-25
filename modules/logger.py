@@ -8,10 +8,10 @@ class Logger:
         if os.path.exists("runtime.log"):
             os.remove("runtime.log")
 
-    def log_event(message, extra=""):
+    def log_event(message, extra="", uinput=""):
         with open("runtime.log", "a") as log_dumper:
             base_line = f"{datetime.now()} | v{version} | Error: {message}"
             if extra == "":
                 log_dumper.writelines(base_line + "\n")
             else:
-                log_dumper.writelines(f"{base_line} | Additional Info: {extra}\n")
+                log_dumper.writelines(f"{base_line} | Additional Info: {extra} | Input: {uinput}\n")

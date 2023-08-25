@@ -7,12 +7,13 @@ from time import sleep
 from sys import exit
 import inquirer
 
-version = "1.4.1"
+version = "1.4.2"
 windll.kernel32.SetConsoleTitleW(f"NN-Downloader | v{version}")
 proxy_list = []
 header = {"User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)"}
 needed_folders = ["db", "media"]
-database_list = ["e621.db"]
+database_list = ["e621", "furbooru", "rule34"]
+unsafe_chars = ["/", "\\", ":", "*", "?", "\"", "<", ">", "|", "\0", "$", "#", "@", "&", "%", "!", "`", "^", "(", ")", "{", "}", "[", "]", "=", "+", "~", ",", ";"]
 
 if os.path.exists("outdated"):
     version_for_logo = colored(f"v{version}", "cyan", attrs=["blink"])
@@ -70,13 +71,13 @@ class Main():
 
         if oneTimeDownload == True:
             for database in database_list:
-                with open(f"db/{database}", "a") as db_creator:
+                with open(f"db/{database}.db", "a") as db_creator:
                     db_creator.close()
 
         print(colored("What site do you want to download from?", "green"))
         questions = [
             inquirer.List('selection',
-                          choices=['E621', 'E926', 'Furbooru', 'Multporn', 'Rule34', 'Yiffer']), #choices=['E621', 'E926', 'Furbooru', 'Luscious', 'Multporn', 'Rule34', 'Yiffer']),
+                          choices=['E621', 'E926', 'Furbooru', 'Luscious', 'Multporn', 'Rule34', 'Yiffer']),
         ]
         answers = inquirer.prompt(questions)
         print("")
@@ -108,7 +109,8 @@ class Main():
                 print(colored("Please add your Api Key into the config.json", "red"))
                 sleep(5)
             else:
-                E621.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database)
+                output = E621.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database)
+        
         elif site == "e926":
             apiUser = config["user_credentials"]["e926"]["apiUser"]
             apiKey = config["user_credentials"]["e926"]["apiKey"]
@@ -119,16 +121,25 @@ class Main():
                 print(colored("Please add your Api Key into the config.json", "red"))
                 sleep(5)
             else:
-                E926.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database)
+                output = E926.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database)
+        
         elif site == "rule34":
-            RULE34.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], header=header)
+            if oneTimeDownload == True:
+                with open("db/rule34.db", "r") as db_reader:
+                    database = db_reader.read().splitlines()
+            output = RULE34.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], header=header, db=database)
+        
         elif site == "furbooru":
             apiKey = config["user_credentials"]["furbooru"]["apiKey"]
+            if oneTimeDownload == True:
+                with open("db/furbooru.db", "r") as db_reader:
+                    database = db_reader.read().splitlines()
             if apiKey == "":
                 print(colored("Please add your Api Key into the config.json", "red"))
                 sleep(5)
             else:
-                FURBOORU.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiKey=apiKey, header=header)
+                output = FURBOORU.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiKey=apiKey, header=header, db=database)
+        
         elif site == "multporn":
             print(colored("Please enter the link. (e.g. https://multporn.net/comics/double_trouble_18)", "green"))
             URL = input(">> ")
@@ -136,7 +147,8 @@ class Main():
                 print(colored("Please enter a valid link.", "red"))
                 sleep(1.5)
                 URL = input(">> ")
-            Multporn.Fetcher(proxy_list=proxy_list, user_proxies=config["proxies"], header=header, URL=URL)
+            output = Multporn.Fetcher(proxy_list=proxy_list, user_proxies=config["proxies"], header=header, URL=URL)
+        
         elif site == "yiffer":
             print(colored("Please enter the link. (e.g. https://yiffer.xyz/Howl & Jasper)", "green"))
             URL = input(">> ")
@@ -144,7 +156,8 @@ class Main():
                 print(colored("Please enter a valid link.", "red"))
                 sleep(1.5)
                 URL = input(">> ")
-            Yiffer.Fetcher(proxy_list=proxy_list, user_proxies=config["proxies"], header=header, URL=URL)
+            output = Yiffer.Fetcher(proxy_list=proxy_list, user_proxies=config["proxies"], header=header, URL=URL)
+        
         elif site == "luscious":
             print(colored("Please enter the link. (e.g. https://www.luscious.net/albums/bifurcation-ongoing_437722)", "green"))
             URL = input(">> ")
@@ -152,11 +165,32 @@ class Main():
                 print(colored("Please enter a valid link.", "red"))
                 sleep(1.5)
                 URL = input(">> ")
-            Luscious.Fetcher(proxy_list=proxy_list, user_proxies=config["proxies"], header=header, URL=URL)
-        
-        
+            output = Luscious.Fetcher(proxy_list=proxy_list, user_proxies=config["proxies"], header=header, URL=URL)
+
         else:
             print(colored("Site not supported. Open a ticket to request support for that site!", "red"))
+            raise Exception(f"This shouldn't be possible! User tried to download from {site}.")
+            Main.main_startup()
+
+        status = output.get("status", "why no status man?")
+        uinput = output.get("uinput", "URL overdosed :(")
+        exception_str = output.get("exception", "Fuck me there was no exception.")
+        extra = output.get("extra", "")
+        
+        if status == "ok":
+            pass
+        
+        elif status == "error":
+            print(f"{error} An error occured while downloading from {colored(site, 'yellow')}! Please report this. Exception: {colored(exception_str, 'red')}")
+            error_str = f"An error occured while downloading from {site}! Please report this. Exception: {exception_str}"
+            Logger.log_event(error_str, extra, uinput)
+            sleep(7)
+        
+        else:
+            print(f"{major_error} An unknown error occured while downloading from {colored(site, 'yellow')}! Please report this. Exception: {colored(exception_str, 'red')}")
+            error_str = f"An unknown error occured while downloading from {site}! Please report this. Exception: {exception_str}"
+            Logger.log_event(error_str, extra, uinput)
+            sleep(7)
 
         # Jump back to start
         Main.main_startup()
@@ -168,9 +202,3 @@ if __name__ == '__main__':
         print("User Cancelled")
         sleep(3)
         exit(0)
-        
-        
-"""
-TODO: fix luscious being broken
-
-"""
