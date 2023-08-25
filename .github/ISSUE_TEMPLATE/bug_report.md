@@ -1,9 +1,9 @@
 ---
 name: Bug report
-about: Create a report to help me improve this tool
+about: Create a bug report to help me solve the issue.
 title: "[BUG] "
-labels: bug
-assignees: ''
+labels: bug, enhancement
+assignees: Official-Husko
 
 ---
 
@@ -24,13 +24,15 @@ A clear and concise description of what you expected to happen.
 If applicable, add screenshots to help explain your problem.
 
 **Desktop (please complete the following information):**
- - OS: [e.g. iOS]
- - Version [e.g. 22]
+ - OS: [e.g. Windows]
+ - Version [e.g. 10]
 
 **Used Parameters and Settings (please complete the following information):**
 - Site: [e.g. e621]
 - Tool Version: [e.g. ]
-- Tags: [e.g. wolf female sfw]
+- Tags/Link: [e.g. wolf female sfw]
 
 **Additional context**
 Add any other context about the problem here.
+
+### ***Please attach the runtime.log***
