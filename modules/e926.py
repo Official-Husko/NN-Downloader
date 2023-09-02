@@ -83,9 +83,9 @@ class E926():
                             sleep(1)
                             img_data = requests.get(image_address).content
                             
-                            safe_user_tags = user_tags.replace(" ", "_")
-                            for char in unsafe_chars:
-                                safe_user_tags = safe_user_tags.replace(char, "")
+                        safe_user_tags = user_tags.replace(" ", "_")
+                        for char in unsafe_chars:
+                            safe_user_tags = safe_user_tags.replace(char, "")
 
                         if not os.path.exists(f"media/{dt_now}_{safe_user_tags}"):
                             os.mkdir(f"media/{dt_now}_{safe_user_tags}")
