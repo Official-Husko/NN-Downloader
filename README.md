@@ -7,7 +7,7 @@ This project is unfinished and only works on the [listed][13] sites currently. M
 ### Preview
 ![preview](https://github.com/Official-Husko/NN-Downloader/blob/dev/preview/preview.gif)
 
-[Windows Download][14] | [Linux Download][21]
+[Windows Download][14] | [Linux Download][21] (Unofficial)
 
 <br />
 

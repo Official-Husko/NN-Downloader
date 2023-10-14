@@ -1,1 +1,1 @@
-".\.env\Scripts\activate"
+conda activate ".\.env"
