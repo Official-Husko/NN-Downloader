@@ -15,6 +15,8 @@ needed_folders = ["db", "media"]
 database_list = ["e621", "furbooru", "rule34"]
 unsafe_chars = ["/", "\\", ":", "*", "?", "\"", "<", ">", "|", "\0", "$", "#", "@", "&", "%", "!", "`", "^", "(", ")", "{", "}", "[", "]", "=", "+", "~", ",", ";"]
 
+DEBUG = True
+
 if os.path.exists("outdated"):
     version_for_logo = colored(f"v{version}", "cyan", attrs=["blink"])
 else:
