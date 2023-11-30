@@ -4,18 +4,21 @@ import os
 from termcolor import colored
 from ctypes import windll
 from time import sleep
-from sys import exit
+import sys
 import inquirer
 
-version = "1.4.3"
+version = "1.5.0"
 windll.kernel32.SetConsoleTitleW(f"NN-Downloader | v{version}")
 proxy_list = []
 header = {"User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)"}
 needed_folders = ["db", "media"]
-database_list = ["e621", "furbooru", "rule34"]
+database_list = ["e621", "furbooru", "rule34", "e6ai"]
 unsafe_chars = ["/", "\\", ":", "*", "?", "\"", "<", ">", "|", "\0", "$", "#", "@", "&", "%", "!", "`", "^", "(", ")", "{", "}", "[", "]", "=", "+", "~", ",", ";"]
 
-DEBUG = True
+if sys.gettrace() is not None:
+    DEBUG = True
+else:
+    DEBUG = False
 
 if os.path.exists("outdated"):
     version_for_logo = colored(f"v{version}", "cyan", attrs=["blink"])
@@ -34,6 +37,17 @@ VP   V8P VP   V8P        Y8888D'  `Y88P'   `8b8' `8d8'  VP   V8P Y88888P  `Y88P'
 
 class Main():
     def main_startup():
+
+        print(colored("Checking for read and write permissions.", "green"))
+
+        # Check if the process has read and write permissions
+        if os.access(os.getcwd(), os.R_OK | os.W_OK):
+            pass
+        else:
+            print(colored("The program is missing read & write permissions! Change the directory or try run as administrator.", "red"))
+            sleep(300)
+            sys.exit(0)
+
         os.system("cls")
         print(logo)
         print("")
@@ -53,7 +67,7 @@ class Main():
             config = Config_Manager.creator()
             print(colored("New Config file generated. Please configure it for your use case and add API keys for needed services.", "green"))
             sleep(7)
-            exit(0)
+            sys.exit(0)
 
         if checkForUpdates == True:
             os.system("cls")
@@ -79,7 +93,7 @@ class Main():
         print(colored("What site do you want to download from?", "green"))
         questions = [
             inquirer.List('selection',
-                          choices=['E621', 'E926', 'Furbooru', 'Luscious', 'Multporn', 'Rule34', 'Yiffer']),
+                          choices=['E621', 'E6AI', 'E926', 'Furbooru', 'Luscious', 'Multporn', 'Rule34', 'Yiffer']),
         ]
         answers = inquirer.prompt(questions)
         print("")
@@ -113,6 +127,18 @@ class Main():
             else:
                 output = E621.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database)
         
+        if site == "e6ai":
+            apiUser = config["user_credentials"]["e6ai"]["apiUser"]
+            apiKey = config["user_credentials"]["e6ai"]["apiKey"]
+            if oneTimeDownload == True:
+                with open("db/e6ai.db", "r") as db_reader:
+                    database = db_reader.read().splitlines()
+            if apiKey == "" or apiUser == "":
+                print(colored("Please add your Api Key into the config.json", "red"))
+                sleep(5)
+            else:
+                output = E6AI.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database)
+     
         elif site == "e926":
             apiUser = config["user_credentials"]["e926"]["apiUser"]
             apiKey = config["user_credentials"]["e926"]["apiKey"]
@@ -203,4 +229,4 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print("User Cancelled")
         sleep(3)
-        exit(0)
+        sys.exit(0)

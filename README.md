@@ -14,6 +14,7 @@ This project is unfinished and only works on the [listed][13] sites currently. M
 #### Currently Supported:
 - [Rule34][3] (API)
 - [E621][4] (API)
+- [E6AI][22] (API)
 - [E926][5] (API)
 - [Furbooru][6] (API)
 - [Multporn][7]
@@ -49,6 +50,7 @@ This project is unfinished and only works on the [listed][13] sites currently. M
 [19]:https://rule34.art/
 [20]:https://2.multporn.net/
 [21]:https://github.com/HttpAnimation/NN-Downloader-Linux
+[22]:https://e6ai.net/
 
 Further sites can be added. Just open a [support ticket][11] with the URL to the site.
 
