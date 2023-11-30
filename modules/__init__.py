@@ -7,6 +7,7 @@ from .pretty_print import *
 
 # Here are all modules for the sites that are supported
 from .e621 import E621
+from .e6ai import E6AI
 from .e926 import E926
 from .rule34 import RULE34
 from .furbooru import FURBOORU
