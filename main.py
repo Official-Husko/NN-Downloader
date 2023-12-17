@@ -12,7 +12,7 @@ windll.kernel32.SetConsoleTitleW(f"NN-Downloader | v{version}")
 proxy_list = []
 header = {"User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)"}
 needed_folders = ["db", "media"]
-database_list = ["e621", "furbooru", "rule34", "e6ai"]
+database_list = ["e621", "furbooru", "rule34", "e6ai", "e926"]
 unsafe_chars = ["/", "\\", ":", "*", "?", "\"", "<", ">", "|", "\0", "$", "#", "@", "&", "%", "!", "`", "^", "(", ")", "{", "}", "[", "]", "=", "+", "~", ",", ";"]
 
 if sys.gettrace() is not None:
@@ -100,10 +100,9 @@ class Main():
 
         site = answers.get("selection").lower()
 
-        if site in ["multporn", "yiffer", "luscious"]:
-            pass
-        else: 
-            print(colored("Please enter the tags you want to use", "green"))
+        if site in ["e621", "e6ai", "e926"]:
+
+            print(colored("Please enter the tags you want to use.", "green"))
             user_tags = input(">> ").lower()
             while user_tags == "":    
                 print(colored("Please enter the tags you want.", "red"))
@@ -115,42 +114,17 @@ class Main():
             max_sites = input(">> ").lower()
             print("")
 
-        if site == "e621":
-            apiUser = config["user_credentials"]["e621"]["apiUser"]
-            apiKey = config["user_credentials"]["e621"]["apiKey"]
+            apiUser = config["user_credentials"][site]["apiUser"]
+            apiKey = config["user_credentials"][site]["apiKey"]
             if oneTimeDownload == True:
-                with open("db/e621.db", "r") as db_reader:
+                with open(f"db/{site}.db", "r") as db_reader:
                     database = db_reader.read().splitlines()
             if apiKey == "" or apiUser == "":
                 print(colored("Please add your Api Key into the config.json", "red"))
                 sleep(5)
             else:
-                output = E621.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database)
-        
-        if site == "e6ai":
-            apiUser = config["user_credentials"]["e6ai"]["apiUser"]
-            apiKey = config["user_credentials"]["e6ai"]["apiKey"]
-            if oneTimeDownload == True:
-                with open("db/e6ai.db", "r") as db_reader:
-                    database = db_reader.read().splitlines()
-            if apiKey == "" or apiUser == "":
-                print(colored("Please add your Api Key into the config.json", "red"))
-                sleep(5)
-            else:
-                output = E6AI.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database)
-     
-        elif site == "e926":
-            apiUser = config["user_credentials"]["e926"]["apiUser"]
-            apiKey = config["user_credentials"]["e926"]["apiKey"]
-            if oneTimeDownload == True:
-                with open("db/e621.db", "r") as db_reader:
-                    database = db_reader.read().splitlines()
-            if apiKey == "" or apiUser == "":
-                print(colored("Please add your Api Key into the config.json", "red"))
-                sleep(5)
-            else:
-                output = E926.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database)
-        
+                output = E6System.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database, site=site)
+       
         elif site == "rule34":
             if oneTimeDownload == True:
                 with open("db/rule34.db", "r") as db_reader:
