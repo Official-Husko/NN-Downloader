@@ -2,13 +2,16 @@ from modules import *
 import json
 import os
 from termcolor import colored
-from ctypes import windll
 from time import sleep
 import sys
 import inquirer
 
 version = "1.5.0"
-windll.kernel32.SetConsoleTitleW(f"NN-Downloader | v{version}")
+
+if os.name == 'nt':
+    from ctypes import windll
+    windll.kernel32.SetConsoleTitleW(f"NN-Downloader | v{version}")
+
 proxy_list = []
 header = {"User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)"}
 needed_folders = ["db", "media"]
@@ -37,7 +40,11 @@ VP   V8P VP   V8P        Y8888D'  `Y88P'   `8b8' `8d8'  VP   V8P Y88888P  `Y88P'
 
 class Main():
     def main_startup():
-
+        def clear_screen():
+            if os.name == 'nt':
+                os.system("cls")
+            else:
+                os.system("clear")
         print(colored("Checking for read and write permissions.", "green"))
 
         # Check if the process has read and write permissions
@@ -47,8 +54,7 @@ class Main():
             print(colored("The program is missing read & write permissions! Change the directory or try run as administrator.", "red"))
             sleep(300)
             sys.exit(0)
-
-        os.system("cls")
+        
         print(logo)
         print("")
 
@@ -70,12 +76,12 @@ class Main():
             sys.exit(0)
 
         if checkForUpdates == True:
-            os.system("cls")
+            clear_screen()
             print(logo)
             print("")
             print(colored("Checking for Updates...", "yellow"), end='\r')
             AutoUpdate.Checker()
-            os.system("cls")
+            clear_screen()
             print(logo)
             print("")
 
