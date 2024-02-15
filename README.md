@@ -7,7 +7,7 @@ This project is unfinished and only works on the [listed][13] sites currently. M
 ### Preview
 ![preview](https://github.com/Official-Husko/NN-Downloader/blob/dev/preview/preview.gif)
 
-[Windows Download][14] | [Linux Download][21] (Unofficial)
+[Windows Download][14] | [Linux Download][21] (Thanks to [incognibro538](https://github.com/incognibro538))
 
 <br />
 
@@ -42,14 +42,14 @@ This project is unfinished and only works on the [listed][13] sites currently. M
 [11]:https://github.com/Official-Husko/NN-Downloader/issues
 [12]:https://booru.plus/
 [13]:https://github.com/Official-Husko/NN-Downloader#currently-supported=
-[14]:https://github.com/Official-Husko/NN-Downloader/releases/latest
+[14]:https://github.com/Official-Husko/NN-Downloader/releases/latest/download/NN-Downloader.exe
 [15]:https://nhentai.net/
 [16]:https://luscious.net/
 [17]:https://www.pixiv.net/
 [18]:https://hentairead.com/
 [19]:https://rule34.art/
 [20]:https://2.multporn.net/
-[21]:https://github.com/HttpAnimation/NN-Downloader-Linux
+[21]:https://codeload.github.com/Official-Husko/NN-Downloader/zip/refs/heads/master
 [22]:https://e6ai.net/
 
 Further sites can be added. Just open a [support ticket][11] with the URL to the site.
