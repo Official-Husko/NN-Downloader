@@ -61,6 +61,8 @@ class E6System():
                         
                         if ai_training == True:
                             meta_tags = item["tags"]
+                        else:
+                            meta_tags = []
 
                         post_tags = post_tags1 + post_tags2 + post_tags3 + post_tags4 + post_tags5
                         image_format = item["file"]["ext"]
@@ -99,12 +101,17 @@ class E6System():
 
                         if not os.path.exists(f"media/{dt_now}_{safe_user_tags}"):
                             os.mkdir(f"media/{dt_now}_{safe_user_tags}")
+
                         if not os.path.exists(f"media/{dt_now}_{safe_user_tags}/meta") and ai_training == True:
                             os.mkdir(f"media/{dt_now}_{safe_user_tags}/meta")
+
                         with open(f"media/{dt_now}_{safe_user_tags}/{str(image_id)}.{image_format}", 'wb') as handler:
                             handler.write(img_data)
-                        with open(f"media/{dt_now}_{safe_user_tags}/meta/{str(image_id)}.json", 'w') as handler:
-                            json.dump(meta_tags, handler, indent=6)
+
+                        if ai_training == True:
+                            with open(f"media/{dt_now}_{safe_user_tags}/meta/{str(image_id)}.json", 'w') as handler:
+                                json.dump(meta_tags, handler, indent=6)
+
                         with open(f"db/{site}.db", "a") as db_writer:
                             db_writer.write(f"{str(image_id)}\n")
                         bar()
