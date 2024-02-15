@@ -11,3 +11,4 @@ db/
 outdated
 runtime.log
 config.json.dev
+Build Release.bat

@@ -3,7 +3,7 @@ from time import sleep
 from termcolor import colored
 import os
 
-def_config_version = 1.5
+def_config_version = 1.6
 
 class Config_Manager():
     
@@ -14,6 +14,7 @@ class Config_Manager():
             "checkForUpdates": True,
             "oneTimeDownload": True,
             "advancedMode": False,
+            "ai_training": False,
             "user_credentials": {
                 "e621": {
                     "apiUser": "",
