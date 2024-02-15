@@ -16,7 +16,7 @@ class AutoUpdate:
     
     def Checker():
         try:
-            url = "https://api.github.com/repos/Official-Husko/NN-Downloader/releases/latest"
+            url = "https://api.github.com/repos/Official-Husko/NN-Downloader/releases/latest?from=about"
             
             headers = {
                 "User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)", 
