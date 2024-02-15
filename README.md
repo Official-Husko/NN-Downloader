@@ -2,8 +2,6 @@
 
 Welcome to the successor of the [multporn image downloader v1][2] & [v2][1] and most downloaders out there regarding "NSFW" material. The NN-Downloader or Naughty-Naughty-Downloader (yes very creative I know) supports multiple sites with their official API (if available), and proxies and it's also portable.
 
-This project is unfinished and only works on the [listed][13] sites currently. More Documentation and other gibberish are planned.
-
 ### Preview
 ![preview](https://github.com/Official-Husko/NN-Downloader/blob/dev/preview/preview.gif)
 
@@ -21,13 +19,7 @@ This project is unfinished and only works on the [listed][13] sites currently. M
 - [Yiffer][8]
 - [Luscious][16]
 
-#### Planned:
-- [YiffGallery][9]
-- ~~[FurryBooru][10]~~ Is currently not possible due to Cloudflare blocking access when contacting their API.
-- [BooruPlus][11]
-- [nHentai][15]
-- [Pixiv][17]
-- [HentaiRead][18]
+<br />
 
 [1]:https://github.com/Official-Husko/multporn-image-downloader-v2
 [2]:https://github.com/Official-Husko/multporn-image-downloader
