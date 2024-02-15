@@ -63,6 +63,7 @@ class Main():
             oneTimeDownload = config["oneTimeDownload"]
             use_proxies = config["proxies"]
             checkForUpdates = config["checkForUpdates"]
+            ai_training = config["ai_training"]
         else:
             config = Config_Manager.creator()
             print(colored("New Config file generated. Please configure it for your use case and add API keys for needed services.", "green"))
@@ -123,7 +124,7 @@ class Main():
                 print(colored("Please add your Api Key into the config.json", "red"))
                 sleep(5)
             else:
-                output = E6System.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database, site=site)
+                output = E6System.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database, site=site, ai_training=ai_training)
        
         elif site == "rule34":
             if oneTimeDownload == True:

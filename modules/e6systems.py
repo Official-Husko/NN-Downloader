@@ -6,13 +6,14 @@ from alive_progress import alive_bar
 from time import sleep
 from datetime import datetime
 import os
+import json
 
 from main import unsafe_chars
 now = datetime.now()
 dt_now = now.strftime("%d-%m-%Y_%H-%M-%S")
 
 class E6System():
-    def Fetcher(user_tags, user_blacklist, proxy_list, max_sites, user_proxies, apiUser ,apiKey, header, db, site):
+    def Fetcher(user_tags, user_blacklist, proxy_list, max_sites, user_proxies, apiUser ,apiKey, header, db, site, ai_training):
         try:
             approved_list = []
             page = 1
@@ -57,6 +58,10 @@ class E6System():
                         else:
                             post_tags4 = item["tags"]["copyright"]
                             post_tags5 = item["tags"]["artist"]
+                        
+                        if ai_training == True:
+                            meta_tags = item["tags"]
+
                         post_tags = post_tags1 + post_tags2 + post_tags3 + post_tags4 + post_tags5
                         image_format = item["file"]["ext"]
                         user_blacklist_lenght = len(user_blacklist)
@@ -68,7 +73,7 @@ class E6System():
                             else:
                                 passed += 1
                         if passed == user_blacklist_lenght and str(image_id) not in db and image_address != None:
-                            image_data = {"image_address": image_address, "image_format": image_format, "image_id": image_id}
+                            image_data = {"image_address": image_address, "image_format": image_format, "image_id": image_id, "meta_tags": meta_tags}
                             approved_list.append(image_data)
                         else:
                             pass
@@ -79,6 +84,7 @@ class E6System():
                         image_address = data["image_address"]
                         image_format = data["image_format"]
                         image_id = data["image_id"]
+                        meta_tags = data["meta_tags"]
                         bar.text = f'-> Downloading: {image_id}, please wait...'
                         if user_proxies == True:
                             proxy = random.choice(proxy_list)
@@ -93,8 +99,12 @@ class E6System():
 
                         if not os.path.exists(f"media/{dt_now}_{safe_user_tags}"):
                             os.mkdir(f"media/{dt_now}_{safe_user_tags}")
+                        if not os.path.exists(f"media/{dt_now}_{safe_user_tags}/meta") and ai_training == True:
+                            os.mkdir(f"media/{dt_now}_{safe_user_tags}/meta")
                         with open(f"media/{dt_now}_{safe_user_tags}/{str(image_id)}.{image_format}", 'wb') as handler:
                             handler.write(img_data)
+                        with open(f"media/{dt_now}_{safe_user_tags}/meta/{str(image_id)}.json", 'w') as handler:
+                            json.dump(meta_tags, handler, indent=6)
                         with open(f"db/{site}.db", "a") as db_writer:
                             db_writer.write(f"{str(image_id)}\n")
                         bar()
