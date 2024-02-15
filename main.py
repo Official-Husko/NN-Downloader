@@ -7,7 +7,7 @@ from time import sleep
 import sys
 import inquirer
 
-version = "1.5.0"
+version = "1.6.0"
 windll.kernel32.SetConsoleTitleW(f"NN-Downloader | v{version}")
 proxy_list = []
 header = {"User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)"}
