@@ -5,7 +5,15 @@ Welcome to the successor of the [multporn image downloader v1][2] & [v2][1] and 
 ### Preview
 ![preview](https://github.com/Official-Husko/NN-Downloader/blob/dev/preview/preview.gif)
 
-[Windows Download][14] | [Linux Download][21] (Thanks to [incognibro538](https://github.com/incognibro538))
+[Windows Download][14] | [Linux Download][21] (Thanks to @incognibro538)
+
+<br />
+
+#### Features:
+- Portable
+- Proxy Support
+- AI Training Compatible
+- Avoid Duplicates
 
 <br />
 
@@ -46,7 +54,6 @@ Welcome to the successor of the [multporn image downloader v1][2] & [v2][1] and 
 
 Further sites can be added. Just open a [support ticket][11] with the URL to the site.
 
-<br />
 <br />
 <br />
 

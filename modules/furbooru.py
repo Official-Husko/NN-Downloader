@@ -1,91 +1,97 @@
-import requests
-import random
-from termcolor import colored
-from alive_progress import alive_bar
-from time import sleep
-from datetime import datetime
-import os
+import requests  # Importing requests library for making HTTP requests
+import random  # Importing random library for random selection
+from termcolor import colored  # Importing colored function from termcolor for colored output
+from alive_progress import alive_bar  # Importing alive_bar from alive_progress for progress bar
+from time import sleep  # Importing sleep function from time for delaying execution
+from datetime import datetime  # Importing datetime class from datetime module for date and time operations
+import os  # Importing os module for operating system related functionalities
 
-from main import unsafe_chars
-now = datetime.now()
-dt_now = now.strftime("%d-%m-%Y_%H-%M-%S")
+from main import unsafe_chars  # Importing unsafe_chars from main module
+
+now = datetime.now()  # Getting current date and time
+dt_now = now.strftime("%d-%m-%Y_%H-%M-%S")  # Formatting current date and time
 
 class FURBOORU():
-    def Fetcher(user_tags, user_blacklist, proxy_list, max_sites, user_proxies, apiKey, header, db):
-        try:
-            user_tags = user_tags.replace(" ", ", ")
-            approved_list = []
-            page = 1
-            while True:
-                URL = f"https://furbooru.org/api/v1/json/search/images?q={user_tags}&page={page}&key={apiKey}&per_page=50"
-                if user_proxies == True:
-                    proxy = random.choice(proxy_list)
-                    raw_req = requests.get(URL, headers=header, proxies=proxy)
-                else:
-                    raw_req = requests.get(URL, headers=header)
+    @staticmethod
+    def fetcher(user_tags, user_blacklist, proxy_list, max_sites, user_proxies, api_key, header, db):
+        """
+        Fetches images from Furbooru API based on user-defined tags and parameters.
 
-                req = raw_req.json()
+        Args:
+            user_tags (str): User-defined tags for image search.
+            user_blacklist (list): List of tags to blacklist.
+            proxy_list (list): List of proxies to use for requests.
+            max_sites (int): Maximum number of pages to fetch images from.
+            user_proxies (bool): Flag indicating whether to use proxies for requests.
+            api_key (str): API key for accessing the Furbooru API.
+            header (dict): HTTP header for requests.
+            db (bool or set): Database of downloaded images.
+
+        Returns:
+            dict: Dictionary containing status of the operation.
+        """
+        try:
+            user_tags = user_tags.replace(" ", ", ")  # Replace spaces in user_tags with commas
+            approved_list = []  # List to store approved images
+            page = 1  # Starting page number
+            
+            while True:
+                URL = f"https://furbooru.org/api/v1/json/search/images?q={user_tags}&page={page}&key={api_key}&per_page=50"
+                # Constructing URL for API request
+                proxy = random.choice(proxy_list) if user_proxies else None  # Selecting random proxy if user_proxies is True
+                raw_req = requests.get(URL, headers=header, proxies=proxy)  # Making HTTP GET request
+                req = raw_req.json()  # Parsing JSON response
 
                 if req["total"] == 0:
-                    print(colored("No images found or all downloaded! Try different tags.", "yellow"))
-                    sleep(5)
+                    print(colored("No images found or all downloaded! Try different tags.", "yellow"))  # Display message if no images found
+                    sleep(5)  # Wait for 5 seconds
                     break
                 elif page == max_sites:
-                    print(colored(f"Finished Downloading {max_sites} of {max_sites} pages.", "yellow"))
-                    sleep(5)
+                    print(colored(f"Finished Downloading {max_sites} of {max_sites} pages.", "yellow"))  # Display message when maximum pages reached
+                    sleep(5)  # Wait for 5 seconds
                     break
-                else: 
+                else:
                     for item in req["images"]:
-                        image_hidden = item["hidden_from_users"]
-                        if image_hidden != False:
-                            pass
-                        else:
+                        if not item["hidden_from_users"]:
                             post_tags = item["tags"]
+                            if any(tag in user_blacklist for tag in post_tags):
+                                continue  # Skip image if any blacklisted tag is found
+                            
                             image_address = item["representations"]["full"]
                             image_format = item["format"]
                             image_id = item["id"]
-                            user_blacklist_lenght = len(user_blacklist)
-                            passed = 0
-
-                            for blacklisted_tag in user_blacklist:
-                                if blacklisted_tag in post_tags:
-                                    break
-                                else:
-                                    passed += 1
-                            if passed == user_blacklist_lenght and str(image_id) not in db:
+                            
+                            if db is False or str(image_id) not in db:
                                 image_data = {"image_address": image_address, "image_format": image_format, "image_id": image_id}
                                 approved_list.append(image_data)
-                            else:
-                                pass
+
                     with alive_bar(len(approved_list), calibrate=1, dual_line=True, title='Downloading') as bar:
                         for data in approved_list:
                             image_address = data["image_address"]
                             image_format = data["image_format"]
                             image_id = data["image_id"]
                             bar.text = f'-> Downloading: {image_id}, please wait...'
-                            if user_proxies == True:
-                                proxy = random.choice(proxy_list)
-                                img_data = requests.get(image_address, proxies=proxy).content
-                            else:
-                                sleep(1)
-                                img_data = requests.get(image_address).content
+                            
+                            proxy = random.choice(proxy_list) if user_proxies else None
+                            img_data = requests.get(image_address, proxies=proxy).content if user_proxies else requests.get(image_address).content
 
-                            safe_user_tags = user_tags.replace(" ", "_")
-                            for char in unsafe_chars:
-                                safe_user_tags = safe_user_tags.replace(char, "")
+                            safe_user_tags = "".join(char for char in user_tags if char not in unsafe_chars).replace(" ", "_")
+                            directory = f"media/{dt_now}_{safe_user_tags}"
+                            os.makedirs(directory, exist_ok=True)
 
-                            if not os.path.exists(f"media/{dt_now}_{safe_user_tags}"):
-                                os.mkdir(f"media/{dt_now}_{safe_user_tags}")
-                            with open(f"media/{dt_now}_{safe_user_tags}/{str(image_id)}.{image_format}", 'wb') as handler:
+                            with open(f"{directory}/{str(image_id)}.{image_format}", 'wb') as handler:
                                 handler.write(img_data)
-                            with open("db/furbooru.db", "a") as db_writer:
-                                db_writer.write(f"{str(image_id)}\n")
-                            bar()
-                    print(colored(f"Page {page} Completed", "green"))
-                    approved_list.clear()
-                    page += 1
 
-            return {"status": "ok"}
-        
+                            if db != False:
+                                with open("db/furbooru.db", "a") as db_writer:
+                                    db_writer.write(f"{str(image_id)}\n")
+
+                            bar()
+                    print(colored(f"Page {page} Completed", "green"))  # Display completion message for current page
+                    approved_list.clear()  # Clear approved_list for next page
+                    page += 1  # Move to next page
+
+            return {"status": "ok"}  # Return success status
+
         except Exception as e:
-            return {"status": "error", "uinput": user_tags, "exception": str(e), "extra": raw_req.content}
+            return {"status": "error", "uinput": user_tags, "exception": str(e), "extra": raw_req.content}  # Return error status along with details

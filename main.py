@@ -6,7 +6,7 @@ from time import sleep
 import sys
 import inquirer
 
-version = "1.6.1"
+version = "1.6.2"
 
 if os.name == 'nt':
     from ctypes import windll
@@ -15,7 +15,7 @@ if os.name == 'nt':
 proxy_list = []
 header = {"User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)"}
 needed_folders = ["db", "media"]
-database_list = ["e621", "furbooru", "rule34", "e6ai", "e926"]
+database_list = ["e621", "e6ai", "e926", "furbooru", "rule34"]
 unsafe_chars = ["/", "\\", ":", "*", "?", "\"", "<", ">", "|", "\0", "$", "#", "@", "&", "%", "!", "`", "^", "(", ")", "{", "}", "[", "]", "=", "+", "~", ",", ";"]
 
 if sys.gettrace() is not None:
@@ -107,7 +107,7 @@ class Main():
 
         site = answers.get("selection").lower()
 
-        if site in ["e621", "e6ai", "e926"]:
+        if site in ["e621", "e6ai", "e926", "furbooru", "rule34"]:
 
             print(colored("Please enter the tags you want to use.", "green"))
             user_tags = input(">> ").lower()
@@ -121,33 +121,41 @@ class Main():
             max_sites = input(">> ").lower()
             print("")
 
-            apiUser = config["user_credentials"][site]["apiUser"]
-            apiKey = config["user_credentials"][site]["apiKey"]
+        if site in ["e621", "e6ai", "e926"]:
+            api_user = config.get("user_credentials",{}).get(site, {}).get("apiUser", "")
+            api_key = config.get("user_credentials", {}).get(site, {}).get("apiKey", "")
             if oneTimeDownload == True:
                 with open(f"db/{site}.db", "r") as db_reader:
                     database = db_reader.read().splitlines()
-            if apiKey == "" or apiUser == "":
-                print(colored("Please add your Api Key into the config.json", "red"))
-                sleep(5)
             else:
-                output = E6System.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiUser=apiUser, apiKey=apiKey, header=header, db=database, site=site, ai_training=ai_training)
-       
+                database = False
+            if api_key == "" or api_user == "":
+                print(colored("Please add your API Key into the config.json", "red"))
+                sleep(10)
+                sys.exit(0)
+            else:
+                output = E6System.fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], api_user=api_user, api_key=api_key, header=header, db=database, site=site, ai_training=ai_training)
+    
         elif site == "rule34":
             if oneTimeDownload == True:
                 with open("db/rule34.db", "r") as db_reader:
                     database = db_reader.read().splitlines()
-            output = RULE34.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], header=header, db=database)
+            else:
+                database = False
+            output = RULE34.fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], header=header, db=database)
         
         elif site == "furbooru":
-            apiKey = config["user_credentials"]["furbooru"]["apiKey"]
+            api_key = config.get("user_credentials", {}).get(site, {}).get("apiKey", "")
             if oneTimeDownload == True:
                 with open("db/furbooru.db", "r") as db_reader:
                     database = db_reader.read().splitlines()
-            if apiKey == "":
-                print(colored("Please add your Api Key into the config.json", "red"))
+            else:
+                database = False
+            if api_key == "":
+                print(colored("Please add your API Key into the config.json", "red"))
                 sleep(5)
             else:
-                output = FURBOORU.Fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], apiKey=apiKey, header=header, db=database)
+                output = FURBOORU.fetcher(user_tags=user_tags, user_blacklist=config["blacklisted_tags"], proxy_list=proxy_list, max_sites=max_sites, user_proxies=config["proxies"], api_key=api_key, header=header, db=database)
         
         elif site == "multporn":
             print(colored("Please enter the link. (e.g. https://multporn.net/comics/double_trouble_18)", "green"))
