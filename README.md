@@ -9,6 +9,14 @@ Welcome to the successor of the [multporn image downloader v1][2] & [v2][1] and 
 
 <br />
 
+#### Features:
+- Portable
+- Proxy Support
+- AI Training Compatible
+- Avoid Duplicates
+
+<br />
+
 #### Currently Supported:
 - [Rule34][3] (API)
 - [E621][4] (API)
@@ -46,7 +54,6 @@ Welcome to the successor of the [multporn image downloader v1][2] & [v2][1] and 
 
 Further sites can be added. Just open a [support ticket][11] with the URL to the site.
 
-<br />
 <br />
 <br />
 
