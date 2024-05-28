@@ -49,13 +49,21 @@ class Multporn():
             else:
                 raw_req = requests.get(URL, headers=header)
 
-            req = raw_req.headers
-
             # extract item id
             try:
-                raw_link = req["link"]
-            except:
-                print("[ " + colored("-","red") + " ] " + f"Please provide a correct link! If this is a mistake please open a ticket with the url.")
+                if raw_req.headers.get("link", None) is not None:
+                    raw_link = raw_req.headers.get("link")
+
+                else:
+                    pattern = r'<link\s+rel="shortlink"\s+href="([^"]+)"\s*/?>'
+                    # Search for the pattern in the HTML content
+                    match = re.search(pattern, raw_req.text)
+                    
+                    if match:
+                        raw_link = match.group(1)
+
+            except Exception as e:
+                print("[ " + colored("-","red") + " ] " + f"Node Link not Found. Double check the link else report this. Error: {e}")
                 sleep(5)
                 return
                 
