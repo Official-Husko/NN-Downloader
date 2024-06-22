@@ -6,7 +6,7 @@ from time import sleep
 import sys
 import inquirer
 
-version = "1.6.3"
+version = "1.6.4"
 
 if os.name == 'nt':
     from ctypes import windll
@@ -16,7 +16,7 @@ proxy_list = []
 header = {"User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)"}
 needed_folders = ["db", "media"]
 database_list = ["e621", "e6ai", "e926", "furbooru", "rule34"]
-unsafe_chars = ["/", "\\", ":", "*", "?", "\"", "<", ">", "|", "\0", "$", "#", "@", "&", "%", "!", "`", "^", "(", ")", "{", "}", "[", "]", "=", "+", "~", ",", ";"]
+unsafe_chars = ["/", "\\", ":", "*", "?", "\"", "<", ">", "|", "\0", "$", "#", "@", "&", "%", "!", "`", "^", "(", ")", "{", "}", "[", "]", "=", "+", "~", ",", ";", "~"]
 
 if sys.gettrace() is not None:
     DEBUG = True
@@ -111,10 +111,31 @@ class Main():
 
             print(colored("Please enter the tags you want to use.", "green"))
             user_tags = input(">> ").lower()
-            while user_tags == "":    
-                print(colored("Please enter the tags you want.", "red"))
-                sleep(3)
-                user_tags = input(">> ").lower()
+
+            # Check to make sure there are not more than 40 tags
+            user_tags_split = user_tags.split()
+            tags_count = len(user_tags_split)
+
+            if site in ["e621", "e6ai", "e926"]:
+                while user_tags == "" or tags_count > 40:
+                    if user_tags == "":
+                        print(colored("Please enter the tags you want.", "red"))
+                    else:
+                        print(colored(f"Sorry, {site.upper()} does not allow more than 40 tags.", "red"))
+                        print(colored(f"You entered {tags_count} tags.", "red"))
+                    
+                    sleep(3)
+                    user_tags = input(">> ").lower()
+
+                    user_tags_split = user_tags.split()
+                    tags_count = len(user_tags_split)
+            else:
+                while user_tags == "":    
+                    print(colored("Please enter the tags you want.", "red"))
+                    sleep(3)
+                    user_tags = input(">> ").lower()
+
+
             print("")
 
             print(colored("How many pages would you like to get?", "green"), colored(" (leave empty for max)", "yellow"))

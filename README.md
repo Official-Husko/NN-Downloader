@@ -14,6 +14,8 @@ Welcome to the successor of the [multporn image downloader v1][2] & [v2][1] and 
 - Proxy Support
 - AI Training Compatible
 - Avoid Duplicates
+- Fast & Efficient Downloads
+- Customizable
 
 <br />
 

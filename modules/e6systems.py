@@ -9,11 +9,14 @@ from time import sleep
 from datetime import datetime
 
 from main import unsafe_chars
+from .create_directory import DirectoryManager
 
 class E6System:
     @staticmethod
     def fetcher(user_tags, user_blacklist, proxy_list, max_sites, user_proxies, api_user, api_key, header, db, site, ai_training):
         try:
+            Directory_Manager_Instance = DirectoryManager()
+
             approved_list = []
             now = datetime.now()
             dt_now = now.strftime("%d-%m-%Y_%H-%M-%S")
@@ -71,22 +74,23 @@ class E6System:
                         proxy = random.choice(proxy_list) if user_proxies else None
                         img_data = requests.get(image_address, proxies=proxy).content if user_proxies else requests.get(image_address).content
 
-                        safe_user_tags = "".join(char for char in user_tags if char not in unsafe_chars).replace(" ", "_")
-                        directory = f"media/{dt_now}_{safe_user_tags}"
-                        meta_directory = f"{directory}/meta"
+                        # TODO: Rewrite this because it currently does these static vars every time
+                        directory = f"media/{dt_now} {user_tags}"
 
-                        os.makedirs(directory, exist_ok=True)
+                        directory = Directory_Manager_Instance.create_folder(folder_name=directory)
+
+                        meta_directory = f"{directory}/meta"
 
                         if ai_training == True:
                             os.makedirs(meta_directory, exist_ok=True)
-                            with open(f"{meta_directory}/{str(image_id)}.json", 'w') as handler:
+                            with open(f"{meta_directory}/{str(image_id)}.json", 'w', encoding='utf-8') as handler:
                                 json.dump(meta_tags, handler, indent=6)
 
                         with open(f"{directory}/{str(image_id)}.{image_format}", 'wb') as handler:
                             handler.write(img_data)
 
                         if db != False:
-                            with open(f"db/{site}.db", "a") as db_writer:
+                            with open(f"db/{site}.db", "a", encoding="utf-8") as db_writer:
                                 db_writer.write(f"{str(image_id)}\n")
 
                         bar()
