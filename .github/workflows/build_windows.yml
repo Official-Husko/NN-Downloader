@@ -24,6 +24,7 @@ jobs:
         python -m venv .env
         source .env/Scripts/activate
         python -m pip install --upgrade pip
+        pip install pyinstaller
         pip install -r requirements.txt  # Replace with your requirements file if exists
         
         pyinstaller --paths .env/Lib/site-packages \
