@@ -2,11 +2,11 @@
 
 Welcome to the successor of the [multporn image downloader v1][2] & [v2][1] and most downloaders out there regarding "NSFW" material. The NN-Downloader or Naughty-Naughty-Downloader (yes very creative I know) supports multiple sites with their official API (if available), and proxies and it's also portable.
 
-> [!NOTE]
-> This project is built using Github Actions for full transparency on the build process.
-
 ### Preview
 ![preview](https://github.com/Official-Husko/NN-Downloader/blob/dev/preview/preview.gif)
+
+> [!NOTE]
+> This projects windows exe is built using Github Actions for full transparency on the build process.
 
 [Windows Download][14] | [Linux Download][21] (Thanks to [incognibro538](https://github.com/incognibro538))
 
