@@ -11,10 +11,10 @@ jobs:
     
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@4
       
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: 3.12.4  # Specify the Python version you need
     
@@ -41,7 +41,7 @@ jobs:
                     main.py
 
     - name: Upload artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v4
       with:
         name: nn-downloader-windows
         path: dist/NN-Downloader.exe  # Adjust the path to your executable relative to the root of the repository
