@@ -18,23 +18,21 @@ jobs:
       with:
         python-version: 3.12.4  # Specify the Python version you need
     
-    - name: Create virtual environment
+    - name: Create virtual environment and build
+      shell: bash
       run: |
         python -m venv .env
-        .env\Scripts\activate  # Activate the virtual environment
+        source .env/Scripts/activate
         python -m pip install --upgrade pip
         pip install -r requirements.txt  # Replace with your requirements file if exists
-    
-    - name: Build executable
-      run: |
-        .env\Scripts\activate  # Activate the virtual environment
-        pyinstaller --paths .env\Lib\site-packages \
+        
+        pyinstaller --paths .env/Lib/site-packages \
                     --hidden-import requests \
                     --hidden-import inquirer \
                     --hidden-import alive_progress \
                     --hidden-import termcolor \
                     --hidden-import xmltodict \
-                    --add-data=".env\Lib\site-packages\grapheme\data\*;grapheme/data/" \
+                    --add-data=".env/Lib/site-packages/grapheme/data/*;grapheme/data/" \
                     --onefile \
                     --icon "icon.ico" \
                     --console \
