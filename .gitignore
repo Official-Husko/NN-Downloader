@@ -1,14 +1,7 @@
+/.env/
+/media/
+/db/
 config.json
-__pycache__/
-*.spec
-dist/
-build/
-media/
-.env/
-testing_accounts.txt
-old_config.json
-db/
-outdated
-runtime.log
 config.json.dev
-Build Release.bat
+old_config.json
+testing_accounts.txt
