@@ -16,7 +16,7 @@ class RULE34():
     def fetcher(user_tags, user_blacklist, proxy_list, max_sites, user_proxies, header, db):
         try:
             approved_list = []
-            page = 1
+            page = 0
             
             while True:
                 URL = f"https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&pid={page}&limit=1000&json=1&tags={user_tags}"

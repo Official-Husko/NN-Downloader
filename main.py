@@ -6,7 +6,7 @@ from time import sleep
 import sys
 import inquirer
 
-version = "1.6.4"
+version = "1.6.5"
 
 if os.name == 'nt':
     from ctypes import windll
