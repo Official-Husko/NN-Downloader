@@ -28,6 +28,7 @@ class Luscious():
             title = title[0]
             
             page = 1
+            completed_items = 0
             while True:
                 header = {"User-Agent":f"nn-downloader/{version} (by Official Husko on GitHub)", "Content-Type": "application/json", "Accept": "application/json"}
                 data = {"id":"6","operationName":"PictureListInsideAlbum","query":"\n    query PictureListInsideAlbum($input: PictureListInput!) {\n  picture {\n    list(input: $input) {\n      info {\n        ...FacetCollectionInfo\n      }\n      items {\n        __typename\n        id\n        title\n        description\n        created\n        like_status\n        number_of_comments\n        number_of_favorites\n        moderation_status\n        width\n        height\n        resolution\n        aspect_ratio\n        url_to_original\n        url_to_video\n        is_animated\n        position\n        permissions\n        url\n        tags {\n          category\n          text\n          url\n        }\n        thumbnails {\n          width\n          height\n          size\n          url\n        }\n      }\n    }\n  }\n}\n    \n    fragment FacetCollectionInfo on FacetCollectionInfo {\n  page\n  has_next_page\n  has_previous_page\n  total_items\n  total_pages\n  items_per_page\n  url_complete\n}\n    ","variables":{"input":{"filters":[{"name":"album_id","value":id}],"display":"position","items_per_page":50,"page":page}}}
@@ -57,6 +58,8 @@ class Luscious():
 
                 # Download Each file
                 with alive_bar(total_items, calibrate=1, dual_line=True, title='Downloading') as bar:
+                    for _ in range(completed_items):
+                        bar()
                     for item in req["data"]["picture"]["list"]["items"]:
                         
                         image_id = item["id"]
@@ -85,12 +88,13 @@ class Luscious():
                         with open(f"media/{safe_title}/{str(safe_image_title)}.{image_format[2]}", 'wb') as handler:
                             handler.write(img_data)
                         bar()
+                        completed_items += 1
 
                 print(colored(f"Page {page} Completed", "green"))
                 page += 1
                 sleep(5)
 
-                return {"status": "ok"}
+            return {"status": "ok"}
 
         except Exception as e:
             return {"status": "error", "uinput": URL, "exception": str(e), "extra": raw_req.content}
