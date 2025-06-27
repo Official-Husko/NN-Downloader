@@ -1,0 +1,13 @@
+# NN-Downloader v2.0 - Essential Dependencies Only
+
+# Core async dependencies (required for downloads)
+aiohttp>=3.9.0
+aiofiles>=24.1.0
+
+# GUI dependencies (tkinter is built into Python)
+# No additional GUI dependencies needed
+
+# Optional dependencies (uncomment if needed)
+# requests>=2.32.0          # For compatibility with old modules
+# termcolor>=2.4.0          # For colored console output  
+# alive-progress>=3.1.5     # For progress bars in console mode

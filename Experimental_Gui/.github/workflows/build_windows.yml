@@ -1,0 +1,47 @@
+name: Build Windows Executable
+
+on:
+  push:
+    branches:
+      - dev  # Adjust branch name as needed
+
+jobs:
+  build:
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: 3.12.4  # Specify the Python version you need
+    
+    - name: Create virtual environment and build
+      shell: bash
+      run: |
+        python -m venv .env
+        source .env/Scripts/activate
+        python -m pip install --upgrade pip
+        pip install pyinstaller
+        pip install -r requirements.txt  # Replace with your requirements file if exists
+        
+        pyinstaller --paths .env/Lib/site-packages \
+                    --hidden-import requests \
+                    --hidden-import inquirer \
+                    --hidden-import alive_progress \
+                    --hidden-import termcolor \
+                    --hidden-import xmltodict \
+                    --add-data=".env/Lib/site-packages/grapheme/data/*;grapheme/data/" \
+                    --onefile \
+                    --icon "icon.ico" \
+                    --console \
+                    --name "NN-Downloader" \
+                    main.py
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: nn-downloader-windows
+        path: dist/NN-Downloader.exe  # Adjust the path to your executable relative to the root of the repository
