@@ -17,31 +17,42 @@ class Multporn():
 
             # sort link for category
             parts = URL.split("/")
-            type = parts[3]
-            title = parts[4]
+            
+            if len(parts) > 4:
+                type = parts[3]
+                title = parts[4] 
 
-            if type in ["comics", "hentai_manga", "gay_porn_comics", "gif", "humor"]:
-                type = "field_com_pages"
+                if type in ["comics", "hentai_manga", "gay_porn_comics", "gif", "humor"]:
+                    type = "field_com_pages"
+    
+                elif type in ["pictures", "hentai"]:
+                    type = "field_img"
+    
+                elif type == "rule_63":
+                    type = "field_rule_63_img"
+    
+                elif type == "games":
+                    type = "field_screenshots"
+    
+                elif type == "video":
+                    print("[ " + colored("i","blue") + " ] " + "Sorry but videos are currently not supported.")
+                    sleep(5)
+                    return
+    
+                else:
+                    print("[ " + colored("i","blue") + " ] " + "Sorry but this type is not recognized. Please open a ticket with the link.")
+                    sleep(5)
+                    return
 
-            elif type in ["pictures", "hentai"]:
-                type = "field_img"
-
-            elif type == "rule_63":
-                type = "field_rule_63_img"
-
-            elif type == "games":
-                type = "field_screenshots"
-
-            elif type == "video":
-                print("[ " + colored("i","blue") + " ] " + "Sorry but videos are currently not supported.")
-                sleep(5)
-                return
+            elif len(parts) == 4:
+                type = "field_files"
+                title = parts[3] 
 
             else:
                 print("[ " + colored("i","blue") + " ] " + "Sorry but this type is not recognized. Please open a ticket with the link.")
                 sleep(5)
                 return
-
+                    
             # fetch item id
             if user_proxies == True:
                 proxy = random.choice(proxy_list)
@@ -121,3 +132,10 @@ class Multporn():
 
         except Exception as e:
             return {"status": "error", "uinput": URL, "exception": str(e), "extra": raw_req.content}
+
+
+
+
+
+
+
